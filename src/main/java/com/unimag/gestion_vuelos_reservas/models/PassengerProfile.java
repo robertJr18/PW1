@@ -15,8 +15,9 @@ public class PassengerProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
+    @Column(nullable = false)
     private String phone;
+    @Column(nullable = false, name = "country_code")
     private String CountryCode;
 
 }

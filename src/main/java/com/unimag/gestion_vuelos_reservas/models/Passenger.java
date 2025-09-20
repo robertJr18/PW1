@@ -14,9 +14,10 @@ public class Passenger {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(nullable = false, length = 120)
     private String fullName;
     private String email;
-    @OneToOne(cascade = CascadeType.ALL)@JoinColumn(name = "profile_id")
+    @OneToOne(cascade = CascadeType.ALL)@JoinColumn(name = "profile_id",unique = true)
     PassengerProfile profile;
 
 

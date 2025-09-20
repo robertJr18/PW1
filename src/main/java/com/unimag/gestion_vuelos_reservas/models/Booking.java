@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -19,15 +20,18 @@ public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Column(nullable = false)
     private OffsetDateTime createdAt;
     @ManyToOne
     @JoinColumn(name = "passenger_id")
     private Passenger passenger;
-    private List<BookingItem> items;
+
+    @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL)
+    private List<BookingItem> items = new ArrayList<>();
 
     public void addItem(BookingItem item) {
         this.items.add(item);
+        item.setBooking(this);
     }
 
 
