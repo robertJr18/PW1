@@ -20,9 +20,11 @@ public class BookingItem {
     private Long id;
 
     private BigDecimal price;
+    @Column(nullable = false)
     private Integer segmentOrder;
-
-    //private Cabin cabin;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Cabin cabin;
     @ManyToOne
     @JoinColumn(name = "booking_id")
     private Booking booking;
