@@ -8,7 +8,7 @@ import org.springframework.data.repository.query.Param;
 
 import java.util.Optional;
 
-interface SeatInventoryRepository extends JpaRepository<SeatInventory, Long> {
+public interface SeatInventoryRepository extends JpaRepository<SeatInventory, Long> {
 
     // 1) Busca el inventario de asientos de un vuelo específico en una cabina determinada
     Optional<SeatInventory> findByFlight_IdAndCabin(Long flightId, Cabin cabin);

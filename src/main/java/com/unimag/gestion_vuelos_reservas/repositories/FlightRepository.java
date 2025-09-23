@@ -12,7 +12,7 @@ import java.time.OffsetDateTime;
 import java.util.Collection;
 import java.util.List;
 
-interface FlightRepository extends JpaRepository<Flight, Long> {
+public interface FlightRepository extends JpaRepository<Flight, Long> {
     // 1) Obtener lista de vuelos operados por una aerolinea
     Page<Flight> findByAirline_Name(String airlineName, Pageable pageable);
 

@@ -6,7 +6,7 @@ import org.springframework.data.repository.Repository;
 
 import java.util.Optional;
 
-interface AirlineRepository extends JpaRepository<Airline,Long> {
+public interface AirlineRepository extends JpaRepository<Airline,Long> {
 
     // 1) Obtener una aerolinea por código IATA
     Optional<Airline> findByCode(String code);

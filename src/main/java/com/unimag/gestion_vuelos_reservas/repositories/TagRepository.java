@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 import java.util.Optional;
 
-interface TagRepository extends JpaRepository<com.unimag.gestion_vuelos_reservas.models.Tag, Long> {
+public interface TagRepository extends JpaRepository<com.unimag.gestion_vuelos_reservas.models.Tag, Long> {
 
     // 1) Busca una etiqueta por nombre (ej: "promo", "eco", "red-eye").
     //    Retorna Optional.empty() si no existe.
