@@ -15,3 +15,5 @@ public interface PassengerRepository extends JpaRepository<Passenger,Long> {
     @Query("SELECT p FROM Passenger p LEFT JOIN FETCH p.profile WHERE LOWER(p.email) = LOWER(:email)")
     Optional<Passenger> findByEmailWithProfileIgnoreCase(@Param("email") String email);
 }
+
+

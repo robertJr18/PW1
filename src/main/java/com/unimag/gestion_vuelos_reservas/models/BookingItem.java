@@ -29,5 +29,7 @@ public class BookingItem {
     @JoinColumn(name = "booking_id")
     private Booking booking;
 
-    //private Flight flight;
+    @ManyToOne
+    @JoinColumn(name = "flight_id")
+    private Flight flight;
 }
