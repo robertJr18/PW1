@@ -3,6 +3,7 @@ package com.unimag.gestion_vuelos_reservas;
 import com.unimag.gestion_vuelos_reservas.models.*;
 import com.unimag.gestion_vuelos_reservas.repositories.BookingItemRepository;
 import com.unimag.gestion_vuelos_reservas.repositories.BookingRepository;
+import com.unimag.gestion_vuelos_reservas.repositories.FlightRepository;
 import com.unimag.gestion_vuelos_reservas.repositories.PassengerRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,6 +23,9 @@ public class BookingItemRepositoryTest extends AbstractRepositoryTI{
 
     @Autowired
     private BookingItemRepository bookingItemRepository;
+
+    @Autowired
+    private FlightRepository flightRepository;
 
     @Test
     @DisplayName("BookingItem: lista segmentos ordenados por segmentOrder")
@@ -43,9 +47,12 @@ public class BookingItemRepositoryTest extends AbstractRepositoryTI{
         );
 
         var flight1 = Flight.builder().number("F100").origin(Airport.builder().name("dorado").build()).destination(Airport.builder().name("nevado").build()).build();
+        flightRepository.saveAndFlush(flight1);
         var flight2 = Flight.builder().number("F200").origin(Airport.builder().name("josht").build()).destination(Airport.builder().name("airFonseca").build()).build();
+        flightRepository.saveAndFlush(flight2);
 
-        var item2 = bookingItemRepository.save(
+
+        var item2 = bookingItemRepository.saveAndFlush(
                 BookingItem.builder()
                         .segmentOrder(2)
                         .cabin(Cabin.BUSINESS)
@@ -55,7 +62,7 @@ public class BookingItemRepositoryTest extends AbstractRepositoryTI{
                         .build()
         );
 
-        var item1 = bookingItemRepository.save(
+        var item1 = bookingItemRepository.saveAndFlush(
                 BookingItem.builder()
                         .segmentOrder(1)
                         .cabin(Cabin.ECONOMY)
@@ -94,6 +101,8 @@ public class BookingItemRepositoryTest extends AbstractRepositoryTI{
         );
 
         var flight = Flight.builder().number("F300").origin(Airport.builder().name("dorado").build()).destination(Airport.builder().name("nevado").build()).build();
+        flightRepository.saveAndFlush(flight);
+
 
         bookingItemRepository.saveAll(List.of(
                 BookingItem.builder().segmentOrder(1).cabin(Cabin.ECONOMY).price(new BigDecimal("150")).booking(booking).flight(flight).build(),
@@ -127,6 +136,7 @@ public class BookingItemRepositoryTest extends AbstractRepositoryTI{
         );
 
         var flight = Flight.builder().number("F400").origin(Airport.builder().name("dorado").build()).destination(Airport.builder().name("nevado").build()).build();
+        flightRepository.saveAndFlush(flight);
 
         bookingItemRepository.saveAll(List.of(
                 BookingItem.builder().segmentOrder(1).cabin(Cabin.ECONOMY).price(new BigDecimal("200")).booking(booking).flight(flight).build(),

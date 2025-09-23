@@ -2,6 +2,8 @@ package com.unimag.gestion_vuelos_reservas.models;
 
 import jakarta.persistence.*;
 import lombok.*;
+import java.util.HashSet;
+import java.util.Set;
 
 import java.time.OffsetDateTime;
 import java.util.HashSet;

@@ -1,7 +1,9 @@
 package com.unimag.gestion_vuelos_reservas;
 
 import com.unimag.gestion_vuelos_reservas.models.*;
+import com.unimag.gestion_vuelos_reservas.repositories.BookingItemRepository;
 import com.unimag.gestion_vuelos_reservas.repositories.BookingRepository;
+import com.unimag.gestion_vuelos_reservas.repositories.FlightRepository;
 import com.unimag.gestion_vuelos_reservas.repositories.PassengerRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,6 +24,12 @@ public class BookingRepositoryTest extends AbstractRepositoryTI {
 
     @Autowired
     private PassengerRepository passengerRepository;
+
+    @Autowired
+    private FlightRepository flightRepository;
+
+    @Autowired
+    private BookingItemRepository bookingItemRepository;
 
     @Test
     @DisplayName("Booking: encuentra reservas de un pasajero paginadas y ordenadas por fecha desc")
@@ -79,15 +87,21 @@ public class BookingRepositoryTest extends AbstractRepositoryTI {
         );
 
         var flight1 = Flight.builder().number("F300").origin(Airport.builder().name("dorado").build()).destination(Airport.builder().name("nevado").build()).build();
-
+        flightRepository.save(flight1);
         var flight2 = Flight.builder().number("FS400").origin(Airport.builder().name("nevado").build()).destination(Airport.builder().name("dorado").build()).build();
+        flightRepository.save(flight2);
+
+
 
         var item1 = BookingItem.builder().segmentOrder(1).cabin(Cabin.BUSINESS).price(new BigDecimal("400")).flight(flight1).booking(booking).build();
+        bookingItemRepository.save(item1);
         var item2 = BookingItem.builder().segmentOrder(2).cabin(Cabin.BUSINESS).price(new BigDecimal("450")).flight(flight2).booking(booking).build();
+        bookingItemRepository.save(item2);
+
 
         booking.setItems(List.of(item1,item2));
 
-        bookingRepository.save(booking);
+        bookingRepository.saveAndFlush(booking);
 
         //when
 

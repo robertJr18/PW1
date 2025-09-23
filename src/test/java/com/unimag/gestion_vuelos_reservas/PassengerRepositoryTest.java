@@ -17,6 +17,7 @@ public class PassengerRepositoryTest extends AbstractRepositoryTI{
     private PassengerRepository passengerRepository;
 
 
+
     @Test
     @DisplayName("Passenger: encuentra por email(ignore case)")
     void shouldFindByEmailIgnoreCase() {
@@ -24,7 +25,7 @@ public class PassengerRepositoryTest extends AbstractRepositoryTI{
         var pofile= PassengerProfile.builder() .phone("123456789").CountryCode("57") .build();
 
         var passenger= Passenger.builder().email("JOSE@DEMO.COM"). fullName("Jose Rodriguez").profile(pofile).build();
-        passengerRepository.save(passenger);
+        passengerRepository.saveAndFlush(passenger);
 
         //when
          Optional<Passenger> byEmail= passengerRepository. findByEmailIgnoreCase("JOSE@DEMO.COM");
@@ -41,7 +42,7 @@ public class PassengerRepositoryTest extends AbstractRepositoryTI{
         var profile = PassengerProfile.builder().phone("123456789").CountryCode("57").build();
 
         var passenger = Passenger.builder().email("JOSE@DEMO.COM"). fullName("Jose Rodriguez").profile(profile).build();
-        passengerRepository.save(passenger);
+        passengerRepository.saveAndFlush(passenger);
 
 
         Optional<Passenger> result = passengerRepository.findByEmailWithProfileIgnoreCase("jose@demo.com");
