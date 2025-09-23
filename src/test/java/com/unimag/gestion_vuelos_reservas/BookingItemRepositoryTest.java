@@ -142,4 +142,6 @@ public class BookingItemRepositoryTest extends AbstractRepositoryTI{
         assertThat(economyCount).isEqualTo(2);
         assertThat(businessCount).isEqualTo(1);
     }
+
+
 }
