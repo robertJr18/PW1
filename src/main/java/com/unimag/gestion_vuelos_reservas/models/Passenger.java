@@ -14,7 +14,7 @@ public class Passenger {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "passenger_id")
-    private int id;
+    private long id;
     @Column(nullable = false, length = 120)
     private String fullName;
     @Column(nullable = false, unique = true)

@@ -6,8 +6,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import java.time.OffsetDateTime;
-import java.util.HashSet;
-import java.util.Set;
 
 @Entity
 @Table(name = "flights")
@@ -29,18 +27,18 @@ public class Flight {
     private OffsetDateTime arrivalTime;
 
     @ManyToOne
-    @JoinColumn(name = "airline_id")
+    @JoinColumn(name = "airline_id", nullable = false)
     private Airline airline;
 
     @ManyToOne
-    @JoinColumn(name = "origin_airport_id")
+    @JoinColumn(name = "origin_airport_id", nullable = false)
     private Airport origin;
 
     @ManyToOne
-    @JoinColumn(name = "destination_airport_id")
+    @JoinColumn(name = "destination_airport_id", nullable = false)
     private Airport destination;
 
-    @ManyToMany(mappedBy = "tags", fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "flight_tags",
             joinColumns = @JoinColumn(name = "flight_id"),

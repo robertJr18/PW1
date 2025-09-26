@@ -15,10 +15,10 @@ public class PassengerProfile {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "passenger_profile_id")
-    private int id;
+    private long id;
     @Column(nullable = false,unique = true)
     private String phone;
     @Column(nullable = false, name = "country_code")
-    private String CountryCode;
+    private String countryCode;
 
 }
