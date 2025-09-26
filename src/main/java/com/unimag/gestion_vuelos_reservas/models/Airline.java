@@ -22,7 +22,7 @@ public class Airline {
     @Column(nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "flights", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "airline", fetch = FetchType.LAZY)
     @Builder.Default
     private List<Flight> flights =  new ArrayList<>();
 
