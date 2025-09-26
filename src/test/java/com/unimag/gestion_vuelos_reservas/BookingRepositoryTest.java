@@ -40,7 +40,7 @@ public class BookingRepositoryTest extends AbstractRepositoryTI {
                 Passenger.builder()
                         .email("test@demo.com")
                         .fullName("Test User")
-                        .profile(PassengerProfile.builder().phone("11111").CountryCode("57").build())
+                        .profile(PassengerProfile.builder().phone("11111").countryCode("57").build())
                         .build()
         );
 
@@ -68,14 +68,15 @@ public class BookingRepositoryTest extends AbstractRepositoryTI {
         assertThat(result.getContent().get(1).getId()).isEqualTo(Booking2.getId());
     }
 
-    void findByIdWithItemsAndFlightsAndPassenger(){
+    @Test
+    void searchWithAllDetails(){
 
         //given
         var passenger = passengerRepository.save(
                 Passenger.builder()
                         .email("sum@test.com")
                         .fullName("Jose r")
-                        .profile(PassengerProfile.builder().phone("300554").CountryCode("57").build())
+                        .profile(PassengerProfile.builder().phone("300554").countryCode("57").build())
                         .build()
         );
 
