@@ -16,9 +16,11 @@ import java.math.BigDecimal;
 public class BookingItem {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "booking_item_id")
     private Long id;
 
+    @Column(nullable = false)
     private BigDecimal price;
     @Column(nullable = false)
     private Integer segmentOrder;

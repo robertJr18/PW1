@@ -15,11 +15,14 @@ import lombok.*;
 public class Airline {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "airline_id")
     private Long id;
+    @Column(nullable = false,unique = true)
     private String code;
+    @Column(nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "flights")
+    @OneToMany(mappedBy = "flights", fetch = FetchType.LAZY)
     @Builder.Default
     private List<Flight> flights =  new ArrayList<>();
 

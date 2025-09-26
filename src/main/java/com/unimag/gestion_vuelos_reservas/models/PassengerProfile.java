@@ -13,9 +13,10 @@ import lombok.*;
 @Builder
 public class PassengerProfile {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "passenger_profile_id")
     private int id;
-    @Column(nullable = false)
+    @Column(nullable = false,unique = true)
     private String phone;
     @Column(nullable = false, name = "country_code")
     private String CountryCode;
