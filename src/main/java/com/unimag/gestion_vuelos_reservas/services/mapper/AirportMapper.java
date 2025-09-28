@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.function.Function;
 
 public class AirportMapper {
-    public Airport (AirportDtos.AirportCreateRequest dto) {
+    public Airport toEntity(AirportDtos.AirportCreateRequest dto) {
         if (dto == null) return null;
         Airport entity = new Airport();
         entity.setCode(dto.code());
