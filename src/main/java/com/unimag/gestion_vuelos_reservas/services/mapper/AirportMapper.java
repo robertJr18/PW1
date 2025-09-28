@@ -9,28 +9,20 @@ import java.util.List;
 import java.util.function.Function;
 
 public class AirportMapper {
-    public Airport toEntity(AirportDtos.AirportCreateRequest request) {
-        if (request == null) return null;
-
-        return Airport.builder()
-                .code(request.code().toUpperCase())
-                .name(request.name().trim())
-                .city(request.city().trim())
-                .build();
+    public Airport (AirportDtos.AirportCreateRequest dto) {
+        if (dto == null) return null;
+        Airport entity = new Airport();
+        entity.setCode(dto.code());
+        entity.setName(dto.name());
+        entity.setCity(dto.city());
+        return entity;
     }
 
-    public void updateEntity(Airport airport, AirportDtos.AirportUpdateRequest request) {
-        if (airport == null || request == null) return;
-
-        if (request.code() != null) {
-            airport.setCode(request.code().toUpperCase());
-        }
-        if (request.name() != null) {
-            airport.setName(request.name().trim());
-        }
-        if (request.city() != null) {
-            airport.setCity(request.city().trim());
-        }
+    public void toUpdateEntity(AirportDtos.AirportUpdateRequest dto, Airport entity) {
+        if (dto == null || entity == null) return;
+        entity.setCode(dto.code());
+        entity.setName(dto.name());
+        entity.setCity(dto.city());
     }
 
     public AirportDtos.AirportResponse toResponse(Airport entity) {
