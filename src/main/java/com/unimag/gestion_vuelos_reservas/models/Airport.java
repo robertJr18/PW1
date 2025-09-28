@@ -14,14 +14,13 @@ import lombok.*;
 @Builder
 public class Airport {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "airport_id")
     private Long id;
-    @Column(nullable = false,unique = true)
+    @Column(unique = true)
     private String code;
     @Column(nullable = false)
     private String name;
-    @Column(nullable = false)
     private String city;
 
 }

@@ -1,8 +1,11 @@
 package com.unimag.gestion_vuelos_reservas;
 
+import com.unimag.gestion_vuelos_reservas.models.Airline;
 import com.unimag.gestion_vuelos_reservas.models.Airport;
 import com.unimag.gestion_vuelos_reservas.models.Flight;
 import com.unimag.gestion_vuelos_reservas.models.Tag;
+import com.unimag.gestion_vuelos_reservas.repositories.AirlineRepository;
+import com.unimag.gestion_vuelos_reservas.repositories.AirportRepository;
 import com.unimag.gestion_vuelos_reservas.repositories.FlightRepository;
 import com.unimag.gestion_vuelos_reservas.repositories.TagRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -19,16 +22,22 @@ public class TagRepositoryTest extends AbstractRepositoryTI {
     private TagRepository tagRepository;
     @Autowired
     private FlightRepository flightRepository;
+    @Autowired
+    private AirportRepository airportRepository;
+    @Autowired
+    private AirlineRepository airlineRepository;
 
-    void findByNameANNDfindNameinList(){
+    @Test
+    void findByNameANDfindNameinList(){
         //given
-        var flight1 = Flight.builder().number("F100").origin(Airport.builder().name("dorado").build()).destination(Airport.builder().name("nevado").build()).build();
-        flightRepository.saveAndFlush(flight1);
-        var flight2 = Flight.builder().number("F200").origin(Airport.builder().name("josht").build()).destination(Airport.builder().name("airFonseca").build()).build();
-        flightRepository.saveAndFlush(flight2);
+        var flight1 = Flight.builder().number("F100").origin(airportRepository.save(Airport.builder().name("dorado").build())).destination(airportRepository.save(Airport.builder().name("nevado").build())).airline(airlineRepository.save(Airline.builder().name("American Airlines").code("AAO").build())).build();
+        flightRepository.save(flight1);
+        var flight2 = Flight.builder().number("F200").origin(airportRepository.save(Airport.builder().name("josht").build())).destination(airportRepository.save(Airport.builder().name("airFonseca").build())).airline(airlineRepository.save(Airline.builder().name("American Airlines").code("AAE").build())).build();
+        flightRepository.save(flight2);
+
         var tag = Tag.builder().name("dorado").flights(new HashSet<>(List.of(flight1,flight2))).build();
 
-        tagRepository.saveAndFlush(tag);
+        tagRepository.save(tag);
         // when
         Optional<Tag> findByName = tagRepository.findByName(tag.getName());
 

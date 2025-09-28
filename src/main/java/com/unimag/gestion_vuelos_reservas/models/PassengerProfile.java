@@ -13,7 +13,7 @@ import lombok.*;
 @Builder
 public class PassengerProfile {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "passenger_profile_id")
     private long id;
     @Column(nullable = false,unique = true)

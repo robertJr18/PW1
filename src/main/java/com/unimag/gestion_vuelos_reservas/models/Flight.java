@@ -16,14 +16,13 @@ import java.time.OffsetDateTime;
 @Builder
 public class Flight {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "flight_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(nullable = false, unique = true)
     private String number;
-    @Column(nullable = false, name = "departure_time")
+    @Column( name = "departure_time")
     private OffsetDateTime departureTime;
-    @Column(nullable = false,name = "arrival_time")
+    @Column(name = "arrival_time")
     private OffsetDateTime arrivalTime;
 
     @ManyToOne

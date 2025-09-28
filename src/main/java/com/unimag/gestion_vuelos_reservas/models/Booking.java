@@ -18,7 +18,7 @@ import java.util.List;
 public class Booking {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "booking_id")
     private Long id;
     @Column(name = "created_at", nullable = false)
@@ -28,6 +28,7 @@ public class Booking {
     private Passenger passenger;
 
     @OneToMany(mappedBy = "booking",fetch = FetchType.LAZY)
+    @Builder.Default
     private List<BookingItem> items = new ArrayList<>();
 
     public void addItem(BookingItem item) {
