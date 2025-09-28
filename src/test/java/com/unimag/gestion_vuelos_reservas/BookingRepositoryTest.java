@@ -40,7 +40,7 @@ public class BookingRepositoryTest extends AbstractRepositoryTI {
                 Passenger.builder()
                         .email("test@demo.com")
                         .fullName("Test User")
-                        .profile(PassengerProfile.builder().phone("11111").CountryCode("57").build())
+                        .profile(PassengerProfile.builder().phone("11111").countryCode("57").build())
                         .build()
         );
 
@@ -60,7 +60,7 @@ public class BookingRepositoryTest extends AbstractRepositoryTI {
 
         // WHEN
         Page<Booking> result = bookingRepository
-                .findByPassengerEmailIgnoreCaseOrderByCreatedAtDesc("TEST@DEMO.COM", PageRequest.of(0, 10));
+                .findByPassengerEmailIgnoreCaseOrderByCreatedAtDesc("TEST@DEMO.COM", PageRequest.ofSize(10));
 
         // THEN
         assertThat(result.getTotalElements()).isEqualTo(2);
@@ -68,14 +68,15 @@ public class BookingRepositoryTest extends AbstractRepositoryTI {
         assertThat(result.getContent().get(1).getId()).isEqualTo(Booking2.getId());
     }
 
-    void findByIdWithItemsAndFlightsAndPassenger(){
+    @Test
+    void searchWithAllDetails(){
 
         //given
         var passenger = passengerRepository.save(
                 Passenger.builder()
                         .email("sum@test.com")
                         .fullName("Jose r")
-                        .profile(PassengerProfile.builder().phone("300554").CountryCode("57").build())
+                        .profile(PassengerProfile.builder().phone("300554").countryCode("57").build())
                         .build()
         );
 
@@ -105,26 +106,22 @@ public class BookingRepositoryTest extends AbstractRepositoryTI {
 
         //when
 
-        Optional<Booking> result = bookingRepository.findByIdWithItemsAndFlightsAndPassenger(booking.getId());
+        var result = bookingRepository.searchWithAllDetails(booking.getId());
 
-        //then
+        // then
+        assertThat(result).isPresent();
+        var bookingLoaded = result.get();
 
-        assertThat(result.isPresent()).isTrue();
+        assertThat(bookingLoaded.getPassenger())
+                .isNotNull()
+                .extracting(Passenger::getEmail)
+                .isEqualTo("sum@test.com");
 
-        var loadedBooking = result.get();
-
-        //pasajero precargado
-
-        assertThat(loadedBooking.getPassenger().getEmail()).isEqualTo("sum@test.com");
-        assertThat(loadedBooking.getPassenger().getFullName()).isEqualTo("Jose r");
-
-        // items precargado
-        assertThat(loadedBooking.getItems()).hasSize(2);
-
-        // Flights precargado
-
-        assertThat(loadedBooking.getItems().get(0).getFlight().getNumber()).isEqualTo("F300");
-        assertThat(loadedBooking.getItems().get(1).getFlight().getNumber()).isEqualTo("FS400");
+        assertThat(bookingLoaded.getItems())
+                .hasSize(2)
+                .extracting(BookingItem::getFlight)
+                .extracting(Flight::getNumber)
+                .containsExactlyInAnyOrder("F300", "FS400");
 
     }
 }

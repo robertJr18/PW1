@@ -12,12 +12,15 @@ import lombok.*;
 @Builder
 public class Passenger {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "passenger_id")
+    private long id;
     @Column(nullable = false, length = 120)
     private String fullName;
+    @Column(nullable = false, unique = true)
     private String email;
-    @OneToOne(cascade = CascadeType.ALL)@JoinColumn(name = "profile_id",unique = true)
+    @OneToOne
+    @JoinColumn(name = "profile_id",unique = true)
     PassengerProfile profile;
 
 
