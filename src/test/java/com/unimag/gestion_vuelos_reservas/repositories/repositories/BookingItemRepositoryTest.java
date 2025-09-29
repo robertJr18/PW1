@@ -1,6 +1,7 @@
-package com.unimag.gestion_vuelos_reservas.repositories;
+package com.unimag.gestion_vuelos_reservas.repositories.repositories;
 
 import com.unimag.gestion_vuelos_reservas.models.*;
+import com.unimag.gestion_vuelos_reservas.repositories.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,7 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.List;
 
-public class BookingItemRepositoryTest extends AbstractRepositoryTI{
+public class BookingItemRepositoryTest extends AbstractRepositoryTI {
 
     @Autowired
     private BookingRepository bookingRepository;

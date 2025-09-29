@@ -1,4 +1,4 @@
-package com.unimag.gestion_vuelos_reservas.repositories;
+package com.unimag.gestion_vuelos_reservas.repositories.repositories;
 
 import com.unimag.gestion_vuelos_reservas.repositories.TestcontainersConfiguration;
 import org.junit.jupiter.api.Test;

@@ -1,7 +1,9 @@
-package com.unimag.gestion_vuelos_reservas.repositories;
+package com.unimag.gestion_vuelos_reservas.repositories.repositories;
 
 import com.unimag.gestion_vuelos_reservas.models.Passenger;
 import com.unimag.gestion_vuelos_reservas.models.PassengerProfile;
+import com.unimag.gestion_vuelos_reservas.repositories.PassengerProfileRepository;
+import com.unimag.gestion_vuelos_reservas.repositories.PassengerRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
