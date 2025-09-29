@@ -1,4 +1,4 @@
 package com.unimag.gestion_vuelos_reservas.services;
 
-public interface AirlineServices {
+public interface AirlineService {
 }

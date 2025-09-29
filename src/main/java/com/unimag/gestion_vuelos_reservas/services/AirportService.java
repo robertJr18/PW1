@@ -1,4 +1,4 @@
 package com.unimag.gestion_vuelos_reservas.services;
 
-public class AirportServices {
+public interface AirportService {
 }
