@@ -11,13 +11,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class BokingItemMapper {
 
-    private final FlightMapper flightMapper;
-
-
-    public BokingItemMapper(FlightMapper flightMapper) {
-        this.flightMapper = flightMapper;
-    }
-
     public static BookingItem toEntity(BookingItemDtos.BookingItemCreateRequest request, Flight flight) {
         if (request == null) return null;
         if (flight == null) throw new IllegalArgumentException("flight is null");
@@ -51,7 +44,7 @@ public class BokingItemMapper {
         if (item == null) return null;
         return new BookingItemDtos.BookingItemResponse(
                 item.getId(), item.getPrice(), item.getSegmentOrder(),
-                item.getCabin(),flightMapper.toResponse(item.getFlight())
+                item.getCabin(), FlightMapper.toResponse(item.getFlight())
         );
 
     }
