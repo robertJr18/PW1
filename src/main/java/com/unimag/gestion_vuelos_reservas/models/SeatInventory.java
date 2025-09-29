@@ -11,7 +11,7 @@ import lombok.*;
 @Builder
 public class SeatInventory {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "seat_inventory_id")
     private Long id;
     @Column(nullable = false)

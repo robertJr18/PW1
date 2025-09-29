@@ -10,21 +10,20 @@ import java.util.Optional;
 
 public class PassengerRepositoryTest extends AbstractRepositoryTI {
 
-
-
     @Autowired
     private PassengerRepository passengerRepository;
-
-
+    @Autowired
+    private PassengerProfileRepository passengerProfileRepository;
 
     @Test
     @DisplayName("Passenger: encuentra por email(ignore case)")
     void shouldFindByEmailIgnoreCase() {
         //Given
-        var pofile= PassengerProfile.builder() .phone("123456789").CountryCode("57") .build();
+        var pofile= PassengerProfile.builder() .phone("123456789").countryCode("57") .build();
+        passengerProfileRepository.save(pofile);
 
         var passenger= Passenger.builder().email("JOSE@DEMO.COM"). fullName("Jose Rodriguez").profile(pofile).build();
-        passengerRepository.saveAndFlush(passenger);
+        passengerRepository.save(passenger);
 
         //when
          Optional<Passenger> byEmail= passengerRepository. findByEmailIgnoreCase("JOSE@DEMO.COM");
@@ -38,7 +37,8 @@ public class PassengerRepositoryTest extends AbstractRepositoryTI {
         //Given
 
 
-        var profile = PassengerProfile.builder().phone("123456789").CountryCode("57").build();
+        var profile = PassengerProfile.builder().phone("123456789").countryCode("57").build();
+        passengerProfileRepository.save(profile);
 
         var passenger = Passenger.builder().email("JOSE@DEMO.COM"). fullName("Jose Rodriguez").profile(profile).build();
         passengerRepository.saveAndFlush(passenger);

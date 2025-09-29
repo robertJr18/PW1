@@ -14,7 +14,7 @@ import lombok.*;
 @Builder
 public class Airline {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "airline_id")
     private Long id;
     @Column(nullable = false,unique = true)

@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookingMapper {
-    private final PassengerMapper passengerMapper;
-    private final BokingItemMapper bokingItemMapper;
+    private static PassengerMapper passengerMapper;
+    private static BokingItemMapper bokingItemMapper;
 
     public BookingMapper(PassengerMapper passengerMapper, BokingItemMapper bokingItemMapper) {
         this.passengerMapper = passengerMapper;
@@ -44,7 +44,7 @@ public class BookingMapper {
         if (passenger != null) booking.setPassenger(passenger);
     }
 
-    public BookingDtos.BookingResponse toResponse(Booking booking) {
+    public static BookingDtos.BookingResponse toResponse(Booking booking) {
         if (booking == null) return null;
 
         List<BookingItemDtos.BookingItemResponse> itemsResponse =

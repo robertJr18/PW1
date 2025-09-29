@@ -9,29 +9,35 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.List;
 
-public class BookingItemRepositoryTest extends AbstractRepositoryTI {
+public class BookingItemRepositoryTest extends AbstractRepositoryTI{
 
     @Autowired
     private BookingRepository bookingRepository;
-
     @Autowired
     private PassengerRepository passengerRepository;
-
     @Autowired
     private BookingItemRepository bookingItemRepository;
-
     @Autowired
     private FlightRepository flightRepository;
+    @Autowired
+    private AirportRepository airportRepository;
+    @Autowired
+    private AirlineRepository airlineRepository;
+    @Autowired
+    private PassengerProfileRepository passengerProfileRepository;
 
     @Test
     @DisplayName("BookingItem: lista segmentos ordenados por segmentOrder")
     void shouldListItemsOrderedBySegmentOrder() {
         // GIVEN
+        var profile= PassengerProfile.builder() .phone("123456789").countryCode("57") .build();
+        passengerProfileRepository.save(profile);
+
         var passenger = passengerRepository.save(
                 Passenger.builder()
                         .email("seg@test.com")
                         .fullName("Seg Tester")
-                        .profile(PassengerProfile.builder().phone("111").CountryCode("57").build())
+                        .profile(profile)
                         .build()
         );
 
@@ -42,9 +48,16 @@ public class BookingItemRepositoryTest extends AbstractRepositoryTI {
                         .build()
         );
 
-        var flight1 = Flight.builder().number("F100").origin(Airport.builder().name("dorado").build()).destination(Airport.builder().name("nevado").build()).build();
+        var flight1 = Flight.builder().number("F100").
+                origin(airportRepository.save(Airport.builder().name("dorado").build()))
+                .destination(airportRepository.save(Airport.builder().name("nevado").build()))
+                .airline(airlineRepository.save(Airline.builder().name("American Airlines").code("AAO").build())).build();
         flightRepository.saveAndFlush(flight1);
-        var flight2 = Flight.builder().number("F200").origin(Airport.builder().name("josht").build()).destination(Airport.builder().name("airFonseca").build()).build();
+
+        var flight2 = Flight.builder().number("F200")
+                .origin(airportRepository.save(Airport.builder().name("josht").build()))
+                .destination(airportRepository.save(Airport.builder().name("airFonseca").build()))
+                .airline(airlineRepository.save(Airline.builder().name("American Airlines").code("AAE").build())).build();
         flightRepository.saveAndFlush(flight2);
 
 
@@ -81,11 +94,13 @@ public class BookingItemRepositoryTest extends AbstractRepositoryTI {
     @DisplayName("BookingItem: suma precios de los items de una reserva")
     void shouldSumPriceByBookingId() {
         // GIVEN
+        var pofile= PassengerProfile.builder() .phone("123456789").countryCode("57") .build();
+        passengerProfileRepository.save(pofile);
         var passenger = passengerRepository.save(
                 Passenger.builder()
                         .email("sum@test.com")
                         .fullName("Sum Tester")
-                        .profile(PassengerProfile.builder().phone("222").CountryCode("57").build())
+                        .profile(pofile)
                         .build()
         );
 
@@ -96,13 +111,20 @@ public class BookingItemRepositoryTest extends AbstractRepositoryTI {
                         .build()
         );
 
-        var flight = Flight.builder().number("F300").origin(Airport.builder().name("dorado").build()).destination(Airport.builder().name("nevado").build()).build();
+        var flight = Flight.builder().number("F300")
+                .origin(airportRepository.save(Airport.builder().name("dorado").build()))
+                .destination(airportRepository.save(Airport.builder().name("nevado").build()))
+                .airline(airlineRepository.save(Airline.builder().name("American Airlines").code("AA").build())).build();
         flightRepository.saveAndFlush(flight);
 
 
         bookingItemRepository.saveAll(List.of(
-                BookingItem.builder().segmentOrder(1).cabin(Cabin.ECONOMY).price(new BigDecimal("150")).booking(booking).flight(flight).build(),
-                BookingItem.builder().segmentOrder(2).cabin(Cabin.BUSINESS).price(new BigDecimal("350")).booking(booking).flight(flight).build()
+                BookingItem.builder().segmentOrder(1).cabin(Cabin.ECONOMY).price(new BigDecimal("150"))
+                        .booking(booking)
+                        .flight(flight).build(),
+                BookingItem.builder().segmentOrder(2).cabin(Cabin.BUSINESS).price(new BigDecimal("350"))
+                        .booking(booking)
+                        .flight(flight).build()
         ));
 
         // WHEN
@@ -116,11 +138,14 @@ public class BookingItemRepositoryTest extends AbstractRepositoryTI {
     @DisplayName("BookingItem: cuenta asientos por vuelo y cabina")
     void shouldCountSeatsByFlightAndCabin() {
         // GIVEN
+        var pofile= PassengerProfile.builder() .phone("12345679").countryCode("57") .build();
+        passengerProfileRepository.save(pofile);
+
         var passenger = passengerRepository.save(
                 Passenger.builder()
                         .email("count@test.com")
                         .fullName("Count Tester")
-                        .profile(PassengerProfile.builder().phone("333").CountryCode("57").build())
+                        .profile(pofile)
                         .build()
         );
 
@@ -131,7 +156,10 @@ public class BookingItemRepositoryTest extends AbstractRepositoryTI {
                         .build()
         );
 
-        var flight = Flight.builder().number("F400").origin(Airport.builder().name("dorado").build()).destination(Airport.builder().name("nevado").build()).build();
+        var flight = Flight.builder().number("F40")
+                .origin(airportRepository.save(Airport.builder().name("dorado").build()))
+                .destination(airportRepository.save(Airport.builder().name("nevado").build()))
+                .airline(airlineRepository.save(Airline.builder().name("American Airlines").code("AAAA").build())).build();
         flightRepository.saveAndFlush(flight);
 
         bookingItemRepository.saveAll(List.of(

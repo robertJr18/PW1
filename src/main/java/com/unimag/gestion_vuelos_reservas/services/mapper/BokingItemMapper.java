@@ -47,7 +47,7 @@ public class BokingItemMapper {
 
     }
 
-    public  BookingItemDtos.BookingItemResponse toResponse(BookingItem item) {
+    public static  BookingItemDtos.BookingItemResponse toResponse(BookingItem item) {
         if (item == null) return null;
         return new BookingItemDtos.BookingItemResponse(
                 item.getId(), item.getPrice(), item.getSegmentOrder(),
