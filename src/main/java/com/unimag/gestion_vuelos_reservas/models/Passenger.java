@@ -22,6 +22,4 @@ public class Passenger {
     @OneToOne
     @JoinColumn(name = "profile_id",unique = true)
     PassengerProfile profile;
-
-
 }

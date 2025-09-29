@@ -27,7 +27,7 @@ public class Booking {
     @JoinColumn(name = "passenger_id")
     private Passenger passenger;
 
-    @OneToMany(mappedBy = "booking",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "booking",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     @Builder.Default
     private List<BookingItem> items = new ArrayList<>();
 

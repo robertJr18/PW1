@@ -2,7 +2,9 @@ package com.unimag.gestion_vuelos_reservas.repositories;
 
 import com.unimag.gestion_vuelos_reservas.models.Cabin;
 import com.unimag.gestion_vuelos_reservas.models.SeatInventory;
+import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -23,4 +25,16 @@ public interface SeatInventoryRepository extends JpaRepository<SeatInventory, Lo
     boolean hasAvailableSeats(@Param("flightId") Long flightId,
                               @Param("cabin") Cabin cabin,
                               @Param("min") Integer min);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE SeatInventory s SET s.availableSeats = s.availableSeats - :qty " +
+            "WHERE s.flight.id = :flightId AND s.cabin = :cabin AND s.availableSeats >= :qty")
+    int decrementAvailableSeats(@Param("flightId") Long flightId, @Param("cabin") Cabin cabin, @Param("qty") int qty);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE SeatInventory s SET s.availableSeats = s.availableSeats + :qty " +
+            "WHERE s.flight.id = :flightId AND s.cabin = :cabin")
+    int incrementAvailableSeats(@Param("flightId") Long flightId, @Param("cabin") Cabin cabin, @Param("qty") int qty);
 }
