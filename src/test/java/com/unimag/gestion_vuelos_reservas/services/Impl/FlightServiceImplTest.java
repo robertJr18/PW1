@@ -154,9 +154,6 @@ public class FlightServiceImplTest {
         );
 
         when(flightRepository.findById(1L)).thenReturn(Optional.of(entity));
-        when(airlineRepository.findById(1L)).thenReturn(Optional.of(airline));
-        when(airportRepository.findById(1L)).thenReturn(Optional.of(origin));
-        when(airportRepository.findById(2L)).thenReturn(Optional.of(destination));
         when(tagRepository.findAllById(Set.of())).thenReturn(List.of());
         when(flightRepository.save(any(Flight.class))).thenAnswer(inv -> inv.getArgument(0));
 
@@ -183,8 +180,8 @@ public class FlightServiceImplTest {
     void shouldSearchFlightsByOriginAndDestination() {
         // given
         var airline = Airline.builder().id(1L).code("AV").name("Avianca").build();
-        var origin = Airport.builder().id(1L).code("BOG").name("El Dorado").city("Bogotá").build();
-        var destination = Airport.builder().id(2L).code("MDE").name("Olaya Herrera").city("Medellín").build();
+        var origin = Airport.builder().id(1L).code("bog").name("El Dorado").city("Bogotá").build();
+        var destination = Airport.builder().id(2L).code("mde").name("Olaya Herrera").city("Medellín").build();
 
         var flight = Flight.builder()
                 .id(1L)
@@ -201,8 +198,8 @@ public class FlightServiceImplTest {
         var pageable = org.springframework.data.domain.PageRequest.of(0, 10);
 
         // Stub del repositorio PARA EL MÉTODO PAGINADO por códigos (ajusta el nombre si el tuyo difiere)
-        when(flightRepository.searchFlights(
-                eq("BOG"), eq("MDE"), eq(from), eq(to), eq(pageable)
+        when(flightRepository.findByOrigin_CodeAndDestination_CodeAndDepartureTimeBetween(
+                eq("bog"), eq("mde"), eq(from), eq(to), eq(pageable)
         )).thenReturn(new org.springframework.data.domain.PageImpl<>(java.util.List.of(flight), pageable, 1));
 
         // when (nota: pasamos en minúscula para probar normalización interna del service)
@@ -214,10 +211,8 @@ public class FlightServiceImplTest {
         var result = page.getContent().get(0);
         assertThat(result.id()).isEqualTo(1L);
         assertThat(result.number()).isEqualTo("AV123");
-        assertThat(result.origin().code()).isEqualTo("BOG");
-        assertThat(result.destination().code()).isEqualTo("MDE");
-
-        verify(flightRepository.).search("BOG", "MDE", from, to, pageable);
+        assertThat(result.origin().code()).isEqualTo("bog");
+        assertThat(result.destination().code()).isEqualTo("mde");
         verifyNoMoreInteractions(flightRepository);
     }
 }

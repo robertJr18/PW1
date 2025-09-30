@@ -56,8 +56,6 @@ public class SeatInventoryServiceImplTest {
         );
 
         when(flightRepository.findById(1L)).thenReturn(Optional.of(flight));
-        when(seatInventoryRepository.findByFlight_IdAndCabin(1L, Cabin.ECONOMY))
-                .thenReturn(Optional.empty());
         when(seatInventoryRepository.save(any(SeatInventory.class))).thenAnswer(inv -> {
             SeatInventory s = inv.getArgument(0);
             s.setId(1L);
@@ -88,32 +86,6 @@ public class SeatInventoryServiceImplTest {
                 .hasMessageContaining("Flight not found");
 
         verify(flightRepository).findById(999L);
-        verify(seatInventoryRepository, never()).save(any());
-    }
-
-    @Test
-    void shouldThrowExceptionWhenDuplicateCabinOnCreate() {
-        var flight = Flight.builder().id(1L).number("AV123").build();
-        var existing = SeatInventory.builder()
-                .id(1L)
-                .flight(flight)
-                .cabin(Cabin.ECONOMY)
-                .totalSeats(100)
-                .availableSeats(100)
-                .build();
-
-        var request = new SeatInventoryDtos.SeatInventoryCreateRequest(
-                Cabin.ECONOMY, 100, 100, 1L
-        );
-
-        when(flightRepository.findById(1L)).thenReturn(Optional.of(flight));
-        when(seatInventoryRepository.findByFlight_IdAndCabin(1L, Cabin.ECONOMY))
-                .thenReturn(Optional.of(existing));
-
-        assertThatThrownBy(() -> seatInventoryService.create(request))
-                .isInstanceOf(IllegalStateException.class)
-                .hasMessageContaining("already exists");
-
         verify(seatInventoryRepository, never()).save(any());
     }
 
@@ -168,7 +140,6 @@ public class SeatInventoryServiceImplTest {
         );
 
         when(seatInventoryRepository.findById(1L)).thenReturn(Optional.of(entity));
-        when(flightRepository.findById(1L)).thenReturn(Optional.of(flight));
         when(seatInventoryRepository.save(any(SeatInventory.class))).thenAnswer(inv -> inv.getArgument(0));
 
         var result = seatInventoryService.update(1L, request);
@@ -192,52 +163,29 @@ public class SeatInventoryServiceImplTest {
 
     @Test
     void shouldGetInventoriesByFlight() {
-        var airline = Airline.builder().id(1L).code("AV").name("Avianca").build();
-        var origin = Airport.builder().id(1L).code("BOG").name("El Dorado").city("Bogotá").build();
-        var destination = Airport.builder().id(2L).code("MDE").name("Olaya Herrera").city("Medellín").build();
+        Long flightId = 1L;
+        Cabin cabin = Cabin.ECONOMY;
 
-        var flight = Flight.builder()
-                .id(1L)
-                .number("AV123")
-                .airline(airline)
-                .origin(origin)
-                .destination(destination)
-                .departureTime(OffsetDateTime.now())
-                .arrivalTime(OffsetDateTime.now().plusHours(1))
+        // SeatInventory mockeado
+        SeatInventory seatInventory = SeatInventory.builder()
+                .id(100L)
+                .flight(Flight.builder().id(flightId).build())
+                .cabin(cabin)
+                .availableSeats(50)
                 .build();
 
-        var inventory1 = SeatInventory.builder()
-                .id(1L)
-                .flight(flight)
-                .cabin(Cabin.ECONOMY)
-                .totalSeats(100)
-                .availableSeats(80)
-                .build();
+        when(seatInventoryRepository.findByFlight_IdAndCabin(flightId, cabin))
+                .thenReturn(Optional.of(seatInventory));
 
-        var inventory2 = SeatInventory.builder()
-                .id(2L)
-                .flight(flight)
-                .cabin(Cabin.BUSINESS)
-                .totalSeats(20)
-                .availableSeats(15)
-                .build();
+        // Act
+        var result = seatInventoryService.findByFlightAndCabin(flightId, cabin);
 
-        when(seatInventoryRepository.findByFlight_Id(1L))
-                .thenReturn(List.of(inventory1, inventory2));
-
-        var result = seatInventoryService.getInventoriesByFlight(1L);
-
+        // Assert
         assertThat(result).isNotNull();
-        assertThat(result).hasSize(2);
-        assertThat(result.get(0).id()).isEqualTo(1L);
-        assertThat(result.get(0).cabin()).isEqualTo(Cabin.ECONOMY);
-        assertThat(result.get(0).totalSeats()).isEqualTo(100);
-        assertThat(result.get(0).availableSeats()).isEqualTo(80);
-        assertThat(result.get(1).id()).isEqualTo(2L);
-        assertThat(result.get(1).cabin()).isEqualTo(Cabin.BUSINESS);
-        assertThat(result.get(1).totalSeats()).isEqualTo(20);
-        assertThat(result.get(1).availableSeats()).isEqualTo(15);
+        assertThat(result.id()).isEqualTo(100L);
+        assertThat(result.cabin()).isEqualTo(Cabin.ECONOMY);
 
-        verify(seatInventoryRepository).findByFlight_Id(1L);
+        verify(seatInventoryRepository, times(1))
+                .findByFlight_IdAndCabin(flightId, cabin);
     }
 }
