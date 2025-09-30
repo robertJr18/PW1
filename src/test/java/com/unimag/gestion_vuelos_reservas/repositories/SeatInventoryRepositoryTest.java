@@ -1,10 +1,6 @@
-package com.unimag.gestion_vuelos_reservas.repositories.repositories;
+package com.unimag.gestion_vuelos_reservas.repositories;
 
 import com.unimag.gestion_vuelos_reservas.models.*;
-import com.unimag.gestion_vuelos_reservas.repositories.AirlineRepository;
-import com.unimag.gestion_vuelos_reservas.repositories.AirportRepository;
-import com.unimag.gestion_vuelos_reservas.repositories.FlightRepository;
-import com.unimag.gestion_vuelos_reservas.repositories.SeatInventoryRepository;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package com.unimag.gestion_vuelos_reservas.repositories.repositories;
+package com.unimag.gestion_vuelos_reservas.repositories;
 
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.testcontainers.service.connection.ServiceConnection;

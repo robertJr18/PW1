@@ -1,6 +1,5 @@
-package com.unimag.gestion_vuelos_reservas.repositories.repositories;
+package com.unimag.gestion_vuelos_reservas.repositories;
 
-import com.unimag.gestion_vuelos_reservas.repositories.TestcontainersConfiguration;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;

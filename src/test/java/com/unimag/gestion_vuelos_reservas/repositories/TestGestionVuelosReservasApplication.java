@@ -1,4 +1,4 @@
-package com.unimag.gestion_vuelos_reservas.repositories.repositories;
+package com.unimag.gestion_vuelos_reservas.repositories;
 
 import com.unimag.gestion_vuelos_reservas.GestionVuelosReservasApplication;
 import org.springframework.boot.SpringApplication;
