@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class SeatInventoryImpl implements SeatInventoryService {
+public class SeatInventoryServiceImpl implements SeatInventoryService {
 
     private final SeatInventoryRepository seatInventoryRepository;
     private final FlightRepository flightRepository;
