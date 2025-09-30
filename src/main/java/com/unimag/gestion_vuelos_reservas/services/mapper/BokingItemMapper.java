@@ -8,7 +8,7 @@ import com.unimag.gestion_vuelos_reservas.models.Flight;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-@Component
+
 public class BokingItemMapper {
 
     public static BookingItem toEntity(BookingItemDtos.BookingItemCreateRequest request, Flight flight) {

@@ -12,12 +12,6 @@ import java.util.HashSet;
 import java.util.List;
 
 public class TagMapper {
-    private final FlightMapper flightMapper;
-
-
-    public TagMapper(FlightMapper flightMapper) {
-        this.flightMapper = flightMapper;
-    }
 
     public static Tag toEntity(TagDtos.TagCreateRequest request) {
         if (request == null) return null;
@@ -33,13 +27,13 @@ public class TagMapper {
         if (request.name() != null) tag.setName(request.name());
     }
 
-    public TagDtos.TagResponse toResponse(Tag tag) {
+    public static TagDtos.TagResponse toResponse(Tag tag) {
         if (tag == null) return null;
         Collection<FlightDtos.FlightResponse> flightResponses = new ArrayList<>();
         if (!CollectionUtils.isEmpty(tag.getFlights())) {
             flightResponses = tag.getFlights()
                     .stream()
-                    .map(flightMapper::toResponse)
+                    .map(FlightMapper::toResponse)
                     .toList();
 
         }

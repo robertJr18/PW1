@@ -14,13 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class BookingMapper {
-    private static PassengerMapper passengerMapper;
-    private static BokingItemMapper bokingItemMapper;
-
-    public BookingMapper(PassengerMapper passengerMapper, BokingItemMapper bokingItemMapper) {
-        this.passengerMapper = passengerMapper;
-        this.bokingItemMapper = bokingItemMapper;
-    }
 
     public static Booking toEntity(BookingDtos.BookingCreateRequest request, Passenger passenger, List<BookingItem> items) {
         if (request == null) return null;
@@ -51,12 +44,12 @@ public class BookingMapper {
                 CollectionUtils.isEmpty(booking.getItems())?
                 new ArrayList<>() :
                 booking.getItems().stream()
-                        .map(bokingItemMapper:: toResponse)
+                        .map(BokingItemMapper:: toResponse)
                         .toList();
         return new BookingDtos.BookingResponse(
                 booking.getId(),
                 booking.getCreatedAt(),
-                passengerMapper.toResponse(booking.getPassenger()),
+                PassengerMapper.toResponse(booking.getPassenger()),
                 itemsResponse
         );
 
