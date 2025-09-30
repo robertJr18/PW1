@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface BookingService {
     BookingDtos.BookingResponse createBooking(BookingDtos.BookingCreateRequest request);
-    BookingDtos.BookingResponse updateBooking(BookingDtos.BookingUpdateRequest request);
+    BookingDtos.BookingResponse updateBooking(Long id,BookingDtos.BookingUpdateRequest request);
     BookingDtos.BookingResponse getBookingId(long id);
     void deleteById(long id);
     List<BookingDtos.BookingResponse> finBookingByPassengerEmail(String email);

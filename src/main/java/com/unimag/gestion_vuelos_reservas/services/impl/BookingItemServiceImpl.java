@@ -51,11 +51,11 @@ public class BookingItemServiceImpl  implements BookingItemService {
     }
 
     @Override
-    public BookingItemDtos.BookingItemResponse updateBookingItem(BookingItemDtos.BookingItemUpdateRequest request) {
+    public BookingItemDtos.BookingItemResponse updateBookingItem(Long id,BookingItemDtos.BookingItemUpdateRequest request) {
 
-        BookingItem bookingItem = bookingItemRepository.findById(request.id()).orElseThrow(() -> new NotFoundException("Booking not found"));
+        BookingItem bookingItem = bookingItemRepository.findById(id).orElseThrow(() -> new NotFoundException("Booking not found"));
 
-        Flight flight = null;
+        Flight flight= new Flight();
         if (request != null){
         flight= flightRepository.findById(request.flight_id()).orElseThrow(() -> new NotFoundException("Flight not found"));}
 

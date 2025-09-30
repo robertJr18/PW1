@@ -29,17 +29,16 @@ public class PassengerServiceImpl implements PassengerService {
                     .countryCode(request.profileDto().countryCode()).build();
         }
         Passenger passenger = PassengerMapper.toEntity(request);
-        passengerRepository.save(passenger);
         return PassengerMapper.toResponse( passengerRepository.save(passenger));
 
     }
 
     @Override
-    public PassengerDtos.PassengerResponse updatePassenger(PassengerDtos.PassengerUpdateRequest request) {
+    public PassengerDtos.PassengerResponse updatePassenger(Long id,PassengerDtos.PassengerUpdateRequest request) {
         if (request == null) throw new IllegalArgumentException("PassengerUpdateRequest cannot be null");
 
-        Passenger passenger = passengerRepository.findById(request.id())
-                .orElseThrow(() -> new NotFoundException("Passenger not found with id: " + request.id()));
+        Passenger passenger = passengerRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Passenger not found with id: " + id));
 
         // Validar email si se cambia
         if (request.email() != null && !request.email().equalsIgnoreCase(passenger.getEmail())) {

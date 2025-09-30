@@ -107,9 +107,9 @@ public class BookingServiceImpl implements BookingService {
 
     // actualizar una reserva
     @Override
-    public BookingDtos.BookingResponse updateBooking(BookingDtos.BookingUpdateRequest request) {
+    public BookingDtos.BookingResponse updateBooking(Long id,BookingDtos.BookingUpdateRequest request) {
         if (request == null) throw new IllegalArgumentException("BookingUpdateRequest can't be null!");
-        Booking booking = bookingRepository.findById(request.id()).orElseThrow(()-> new NotFoundException("Booking Not Found"));
+        Booking booking = bookingRepository.findById(id).orElseThrow(()-> new NotFoundException("Booking Not Found"));
 
         validateBookingCanBeModified(booking);
 

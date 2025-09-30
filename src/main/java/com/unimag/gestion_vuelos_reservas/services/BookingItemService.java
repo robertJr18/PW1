@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface BookingItemService {
     BookingItemDtos.BookingItemResponse createBookingItem(Long bookingId,BookingItemDtos.BookingItemCreateRequest request);
-    BookingItemDtos.BookingItemResponse updateBookingItem(BookingItemDtos.BookingItemUpdateRequest request);
+    BookingItemDtos.BookingItemResponse updateBookingItem(Long id,BookingItemDtos.BookingItemUpdateRequest request);
     BookingItemDtos.BookingItemResponse deleteBookingItem(long id);
     List<BookingItemDtos.BookingItemResponse> findItemsByBooking(Long bookingId);
 
