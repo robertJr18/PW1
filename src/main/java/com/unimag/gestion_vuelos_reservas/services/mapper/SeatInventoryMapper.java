@@ -6,12 +6,6 @@ import com.unimag.gestion_vuelos_reservas.models.SeatInventory;
 
 public class SeatInventoryMapper {
 
-    private final FlightMapper flightMapper;
-
-    public SeatInventoryMapper(FlightMapper flightMapper) {
-        this.flightMapper = flightMapper;
-    }
-
     public static SeatInventory toEntity(SeatInventoryDtos.SeatInventoryCreateRequest request, Flight flight) {
         if (request == null) return null;
 
@@ -42,14 +36,14 @@ public class SeatInventoryMapper {
         }
     }
 
-    public SeatInventoryDtos.SeatInventoryResponse toResponse(SeatInventory seatInventory) {
+    public static SeatInventoryDtos.SeatInventoryResponse toResponse(SeatInventory seatInventory) {
         if (seatInventory == null) return null;
         return new SeatInventoryDtos.SeatInventoryResponse(
                 seatInventory.getId(),
                 seatInventory.getCabin(),
                 seatInventory.getTotalSeats(),
                 seatInventory.getAvailableSeats(),
-                flightMapper.toResponse(seatInventory.getFlight())
+                FlightMapper.toResponse(seatInventory.getFlight())
         );
 
     }

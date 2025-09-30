@@ -5,7 +5,7 @@ import com.unimag.gestion_vuelos_reservas.api.dto.PassengerDtos;
 import com.unimag.gestion_vuelos_reservas.models.PassengerProfile;
 import org.springframework.stereotype.Component;
 
-@Component
+
 public class PassengerMapper {
     public static Passenger toEntity(PassengerDtos.PassengerCreateRequest passengerCreateRequest) {
         var profile = (passengerCreateRequest.profileDto() == null ) ? null :

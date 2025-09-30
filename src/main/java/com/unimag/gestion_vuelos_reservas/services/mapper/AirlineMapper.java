@@ -9,8 +9,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
 
+
 public class AirlineMapper {
-    public Airline toEntity(AirlineDtos.AirlineCreateRequest dto) {
+    public static Airline toEntity(AirlineDtos.AirlineCreateRequest dto) {
         if (dto == null) return null;
         Airline entity = new Airline();
         entity.setCode(dto.code());
@@ -18,7 +19,7 @@ public class AirlineMapper {
         return entity;
     }
 
-    public Airline toUpdateEntity(AirlineDtos.AirlineUpdateRequest dto) {
+    public static Airline toUpdateEntity(AirlineDtos.AirlineUpdateRequest dto) {
         if (dto == null) return null;
         Airline entity = new Airline();
         entity.setCode(dto.code());
@@ -26,7 +27,15 @@ public class AirlineMapper {
         return entity;
     }
 
-    public AirlineDtos.AirlineResponse toResponse(
+    public static AirlineDtos.AirlineResponse toResponse(Airline entity) {
+        if (entity == null) return null;
+        return new AirlineDtos.AirlineResponse(
+                entity.getId(),
+                entity.getCode(),
+                entity.getName()
+        );
+    }
+    public static AirlineDtos.AirlineDetailResponse toDetailResponse(
             Airline entity,
             boolean includeFlights,
             Function<Flight, FlightDtos.FlightResponse> flightMapper
@@ -39,7 +48,7 @@ public class AirlineMapper {
                     .map(flightMapper)
                     .toList();
         }
-        return new AirlineDtos.AirlineResponse(
+        return new AirlineDtos.AirlineDetailResponse(
                 entity.getId(),
                 entity.getCode(),
                 entity.getName(),

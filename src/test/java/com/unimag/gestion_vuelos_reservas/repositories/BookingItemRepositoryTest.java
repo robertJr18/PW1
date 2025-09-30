@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.List;
 
-public class BookingItemRepositoryTest extends AbstractRepositoryTI{
+public class BookingItemRepositoryTest extends AbstractRepositoryTI {
 
     @Autowired
     private BookingRepository bookingRepository;

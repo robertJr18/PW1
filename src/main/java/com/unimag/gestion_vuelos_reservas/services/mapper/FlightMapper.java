@@ -4,14 +4,13 @@ import com.unimag.gestion_vuelos_reservas.api.dto.FlightDtos;
 import com.unimag.gestion_vuelos_reservas.models.Airline;
 import com.unimag.gestion_vuelos_reservas.models.Airport;
 import com.unimag.gestion_vuelos_reservas.models.Flight;
-
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class FlightMapper {
 
-    public Flight toEntity(FlightDtos.FlightCreateRequest dto) {
+    public static Flight toEntity(FlightDtos.FlightCreateRequest dto) {
         if (dto == null) return null;
         Flight entity = new Flight();
         entity.setNumber(dto.number());
@@ -21,7 +20,7 @@ public class FlightMapper {
         return entity;
     }
 
-    public void toUpdateEntity(FlightDtos.FlightUpdateRequest dto, Flight entity) {
+    public static void toUpdateEntity(FlightDtos.FlightUpdateRequest dto, Flight entity) {
         if (dto == null || entity == null) return;
         entity.setNumber(dto.number());
         entity.setDepartureTime(dto.departureTime());
@@ -29,7 +28,7 @@ public class FlightMapper {
         // Resto de atributos en services
     }
 
-    public FlightDtos.FlightResponse toResponse(Flight entity) {
+    public static FlightDtos.FlightResponse toResponse(Flight entity) {
         if (entity == null) return null;
 
         FlightDtos.AirlineRef airlineRef = null;
