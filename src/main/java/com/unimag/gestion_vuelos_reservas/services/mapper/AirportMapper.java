@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.function.Function;
 
 public class AirportMapper {
-    public Airport toEntity(AirportDtos.AirportCreateRequest dto) {
+    public static Airport toEntity(AirportDtos.AirportCreateRequest dto) {
         if (dto == null) return null;
         Airport entity = new Airport();
         entity.setCode(dto.code());
@@ -18,14 +18,14 @@ public class AirportMapper {
         return entity;
     }
 
-    public void toUpdateEntity(AirportDtos.AirportUpdateRequest dto, Airport entity) {
+    public static void toUpdateEntity(AirportDtos.AirportUpdateRequest dto, Airport entity) {
         if (dto == null || entity == null) return;
         entity.setCode(dto.code());
         entity.setName(dto.name());
         entity.setCity(dto.city());
     }
 
-    public AirportDtos.AirportResponse toResponse(Airport entity) {
+    public static AirportDtos.AirportResponse toResponse(Airport entity) {
         if (entity == null) return null;
         return new AirportDtos.AirportResponse(
                 entity.getId(),

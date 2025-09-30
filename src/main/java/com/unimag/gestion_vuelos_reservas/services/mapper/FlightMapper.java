@@ -4,7 +4,6 @@ import com.unimag.gestion_vuelos_reservas.api.dto.FlightDtos;
 import com.unimag.gestion_vuelos_reservas.models.Airline;
 import com.unimag.gestion_vuelos_reservas.models.Airport;
 import com.unimag.gestion_vuelos_reservas.models.Flight;
-
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
