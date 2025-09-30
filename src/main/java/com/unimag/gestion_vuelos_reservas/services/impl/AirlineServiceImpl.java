@@ -83,7 +83,7 @@ public class AirlineServiceImpl implements AirlineService {
         airlineRepository.deleteById(id);
     }
 
-    // ===== Helpers =====
+    // ==== Helpers ====
     private boolean equalsIgnoreCaseSafe(String a, String b) {
         if (a == null) return b == null;
         return a.equalsIgnoreCase(b == null ? null : b);
