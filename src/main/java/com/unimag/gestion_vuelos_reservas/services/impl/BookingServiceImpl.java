@@ -150,8 +150,12 @@ public class BookingServiceImpl implements BookingService {
         return items.stream()
                 .map(item -> {
                     Flight flight = flightMap.get(item.flighId());
+                    if (flight == null) {
+                        throw new IllegalArgumentException("No flight found for id " + item.flighId());
+                    }
                     return BokingItemMapper.toEntity(item, flight);
-                }).toList();
+                })
+                .toList();
     }
 
     private void confirmSeatReservations(List<BookingItemDtos.BookingItemCreateRequest> items) {
@@ -167,17 +171,22 @@ public class BookingServiceImpl implements BookingService {
 
 
     private List<Flight> resolveandvalidateFlight(List<BookingItemDtos.BookingItemCreateRequest> items) {
-        List<Long> flightsId = items.stream().map(BookingItemDtos.BookingItemCreateRequest::flighId).toList();
-        List<Flight> flights = flightRepository.findAllById(flightsId);
+        List<Long> requestedIds = items.stream()
+                .map(BookingItemDtos.BookingItemCreateRequest::flighId)
+                .toList();
 
-        //comparacion
-        List<Long> flightsIds = flights.stream().map(Flight::getId).toList();
-        List<Long> noFound = flightsIds.stream().filter(id -> !flightsIds.contains(id)).toList();
+        List<Flight> flights = flightRepository.findAllById(requestedIds);
 
-        if (!noFound.isEmpty()) {
-            throw new NotFoundException("No flights found con ids " + noFound);
+        List<Long> foundIds = flights.stream().map(Flight::getId).toList();
+
+        List<Long> notFound = requestedIds.stream()
+                .filter(id -> !foundIds.contains(id))
+                .toList();
+
+        if (!notFound.isEmpty()) {
+            throw new NotFoundException("No flights found with ids " + notFound);
         }
-        //se podria validar si los vuelos ya han despegado
+
         return flights;
     }
 
@@ -189,22 +198,6 @@ public class BookingServiceImpl implements BookingService {
         if (request == null) throw new IllegalArgumentException("BookingCreateRequest can't be null!");
         if (CollectionUtils.isEmpty(request.items())) throw new IllegalArgumentException("BookingCreateRequest items can't be null!");
         if (request.createdAt() == null) throw new IllegalArgumentException("BookingCreateRequest createdAt can't be null!");
-        validateNoDuplicateFlights(request.items());
-    }
-
-    private void validateNoDuplicateFlights(List<BookingItemDtos.BookingItemCreateRequest> items) {
-        List<Long> flightsIds = items.stream()
-                .map(BookingItemDtos.BookingItemCreateRequest::flighId)
-                .toList();
-        List<Long> duplicates = flightsIds
-                .stream().collect(Collectors.groupingBy(id -> id, Collectors.counting()))
-                .entrySet().stream()
-                .filter(entry -> entry.getValue() > 1)
-                .map(Map.Entry::getKey)
-                .toList();
-        if (!duplicates.isEmpty()) {
-            throw new NotFoundException("Duplicate flights!");
-        }
     }
 
     private void validateBookingCanBeModified(Booking booking) {
