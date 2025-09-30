@@ -50,4 +50,5 @@ public interface FlightRepository extends JpaRepository<Flight, Long> {
     List<Flight> findFlightsWithAllTags(@Param("tags") Collection<String> tags,
                                         @Param("requiredCount") long requiredCount);
 
+    List<Flight> findByOrigin_IdAndDestination_Id(Long originId, Long destinationId);
 }

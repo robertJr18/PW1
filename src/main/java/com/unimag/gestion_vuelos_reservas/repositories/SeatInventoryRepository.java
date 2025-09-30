@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface SeatInventoryRepository extends JpaRepository<SeatInventory, Long> {
@@ -37,4 +38,6 @@ public interface SeatInventoryRepository extends JpaRepository<SeatInventory, Lo
     @Query("UPDATE SeatInventory s SET s.availableSeats = s.availableSeats + :qty " +
             "WHERE s.flight.id = :flightId AND s.cabin = :cabin")
     int incrementAvailableSeats(@Param("flightId") Long flightId, @Param("cabin") Cabin cabin, @Param("qty") int qty);
+
+    List<SeatInventory> findByFlight_Id(Long flightId);
 }
