@@ -23,7 +23,7 @@ public class BookingItemController {
                                                                       UriComponentsBuilder uriBuilder){
         var body = service.createBookingItem(bookingId, request);
         var location = uriBuilder.path("/api/bookings/{bookingId}/items/{itemId}").
-                buildAndExpand(body.id()).toUri();
+                buildAndExpand(bookingId,body.id()).toUri();
         return ResponseEntity.created(location).body(body);
     }
     @GetMapping

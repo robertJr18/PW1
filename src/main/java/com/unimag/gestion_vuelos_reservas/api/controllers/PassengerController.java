@@ -19,7 +19,7 @@ public class PassengerController {
     public ResponseEntity<PassengerDtos.PassengerResponse> create(@Valid@RequestBody PassengerDtos.PassengerCreateRequest request,
                                                                   UriComponentsBuilder uriBuilder) {
         var body = passengerService.createPassenger(request);
-        var location = uriBuilder.path("/api/passenger/{id}").buildAndExpand(body.id()).toUri();
+        var location = uriBuilder.path("/api/passengers/{id}").buildAndExpand(body.id()).toUri();
         return ResponseEntity.created(location).body(body);
     }
     @GetMapping("/{id}")

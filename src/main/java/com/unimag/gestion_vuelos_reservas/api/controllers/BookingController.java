@@ -19,7 +19,7 @@ import java.util.List;
 public class BookingController {
     private final BookingService service;
 
-    @PostMapping("/api/bookings")
+    @PostMapping
     public ResponseEntity<BookingDtos.BookingResponse> create(@Valid@RequestBody BookingDtos.BookingCreateRequest request,
                                                               UriComponentsBuilder uriBuilder){
         var body = service.createBooking(request);
@@ -40,8 +40,12 @@ public class BookingController {
                                                               @Valid  @RequestBody BookingDtos.BookingUpdateRequest request){
         return ResponseEntity.ok(service.updateBooking(id, request));
     }
-    @GetMapping
+    @GetMapping("/by-passenger")
     public ResponseEntity<List<BookingDtos.BookingResponse>> findByPassengerEmail(@RequestParam String email){
         return  ResponseEntity.ok(service.finBookingByPassengerEmail(email));
+    }
+    @GetMapping("/booking-with-details/{id}")
+    public ResponseEntity<BookingDtos.BookingResponse> getBookingWithDetails(@PathVariable long id){
+        return ResponseEntity.ok(service.getBookingWithDetails(id));
     }
 }
