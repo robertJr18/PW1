@@ -130,6 +130,13 @@ public class BookingServiceImpl implements BookingService {
 
         return bookings.stream().map(BookingMapper::toResponse).collect(Collectors.toList());
     }
+
+    @Override
+    public BookingDtos.BookingResponse getBookingWithDetails(long id) {
+        return bookingRepository.searchWithAllDetails(id).map(BookingMapper::toResponse)
+                .orElseThrow(()-> new NotFoundException("Booking Not Found"));
+    }
+
     @Override@Transactional(readOnly = true)
     public BookingDtos.BookingResponse getBookingId(long id) {
         Booking booking = bookingRepository.searchWithAllDetails(id).orElseThrow(()-> new NotFoundException("Booking Not Found"));
