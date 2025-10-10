@@ -31,12 +31,4 @@ public interface FlightService {
             Pageable pageable
     );
 
-    List<FlightDtos.FlightResponse> searchFlightsWithDetails(
-            String originCode,
-            String destinationCode,
-            OffsetDateTime from,
-            OffsetDateTime to
-    );
-
-    List<FlightDtos.FlightResponse> findFlightsWithAllTags(Collection<String> tagNames);
 }
