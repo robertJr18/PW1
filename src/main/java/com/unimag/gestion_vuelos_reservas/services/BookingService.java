@@ -10,4 +10,5 @@ public interface BookingService {
     BookingDtos.BookingResponse getBookingId(long id);
     void deleteById(long id);
     List<BookingDtos.BookingResponse> finBookingByPassengerEmail(String email);
+    BookingDtos.BookingResponse getBookingWithDetails(long id);
 }

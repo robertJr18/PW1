@@ -145,26 +145,6 @@ public class FlightServiceImpl implements FlightService {
                 .map(FlightMapper::toResponse);
     }
 
-    @Override
-    public List<FlightDtos.FlightResponse> searchFlightsWithDetails(
-            String originCode,
-            String destinationCode,
-            OffsetDateTime from,
-            OffsetDateTime to) {
-        return flightRepository.searchWithAssociations(originCode, destinationCode, from, to)
-                .stream()
-                .map(FlightMapper::toResponse)
-                .collect(Collectors.toList());
-    }
 
-    @Override
-    public List<FlightDtos.FlightResponse> findFlightsWithAllTags(Collection<String> tagNames) {
-        if (tagNames == null || tagNames.isEmpty()) {
-            return List.of();
-        }
-        return flightRepository.findFlightsWithAllTags(tagNames, tagNames.size())
-                .stream()
-                .map(FlightMapper::toResponse)
-                .collect(Collectors.toList());
-    }
+
 }
